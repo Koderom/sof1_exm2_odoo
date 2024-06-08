@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="ga_gestion_academica_menu_root" name="Gestion Academica">
+        <menuitem id="ga_gestion_modulo" name="Gestion escolar">
+            <menuitem id="ga_gestion_menu_action" action="ga_gestion_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>

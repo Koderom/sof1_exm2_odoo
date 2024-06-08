@@ -6,3 +6,4 @@ class Gestion(models.Model):
     descripcion = fields.Text()
     fecha_inicio = fields.Date()
     fecha_fin = fields.Date()
+    ciclo_adacemico_ids = fields.One2many('ga.ciclo.academico', 'gestion_id', string="Ciclos Academicos" )
