@@ -12,3 +12,4 @@ from . import ga_paralelo
 from . import ga_paralelo_profesor
 from . import ga_ruta
 from . import ga_actividad_academica
+from . import ga_paralelo_profesor_dias
