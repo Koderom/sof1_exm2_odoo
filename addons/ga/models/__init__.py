@@ -17,3 +17,4 @@ from . import ga_apoderado
 from . import ga_registro_academico
 from . import ga_ruta_chofer
 from . import ga_inscripcion_alumno
+from . import ga_paralelo_profesor_dias
