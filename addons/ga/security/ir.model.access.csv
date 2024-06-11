@@ -18,3 +18,6 @@ ga.access_ga_registro_academico,Registro Académico Access,ga.model_ga_registro_
 ga.access_ga_ruta_chofer,Ruta Chofer Access,ga.model_ga_ruta_chofer,base.group_user,1,1,1,1
 ga.access_ga_dias,access_ga_dias,ga.model_ga_dias,base.group_user,1,1,1,1
 ga.access_ga_paralelo_profesor_dias,access_ga_paralelo_profesor_dias,ga.model_ga_paralelo_profesor_dias,base.group_user,1,1,1,1
+
+
+
