@@ -8,7 +8,7 @@ class Dias(models.Model):
 
 class ParaleloProfesorDias(models.Model):
     _name="ga.paralelo.profesor.dias"
-    _descripcion="Paralelo profesor dias"
+    _description="Paralelo profesor dias"
     hora_inicio=fields.Float(string="Hora de Inicio")
     duracion=fields.Integer(string="Duracion Clase")
     dias_id= fields.Many2one("ga.dias", required=True, string="Dias")
