@@ -2,7 +2,7 @@ FROM odoo:17-base
 
 WORKDIR /odoo
 
-COPY soft1_exm2_odoo/. .
+COPY sof1_exm2_odoo/. .
 
 RUN pip install -r requirements.txt
 
