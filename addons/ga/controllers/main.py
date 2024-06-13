@@ -87,7 +87,7 @@ class ProfesorController(http.Controller):
                 fecha_entrega = nowDateTime + timedelta(hours=1)
                 # realizar consulta para ciclo academico respectivo
                 ciclo_academico = request.env['ga.ciclo.academico'].sudo().search([])[0] 
-                nuevo_actividad_academica = request.env['ga.actividad.academina'].sudo().create({
+                nuevo_actividad_academica = request.env['ga.actividad.academica'].sudo().create({
                     'codigo': 'ACD{}'.format(nowTimeStamp),
                     'descripcion': 'registro de asistencia',
                     'fecha_registro': nowDateTime.strftime('%Y-%m-%d %H:%M:%S'),
@@ -146,4 +146,46 @@ class userController(http.Controller):
                 content_type='application/json'
             )
         
+class EstudianteController(http.Controller):
+    @http.route('/ga/estudiante/confirmacion-asistencia',csrf=False,  type='http', auth='public', website=True, methods=['POST'])
+    def confirmacion_asistencia(self, **post):
+        response_data = {}
+        
+        body = request.httprequest.data
+        data = json.loads(body)
+        codigo_alumno = data.get('codigoPersona')
+        actividad_academica_id = data.get('actividadAcademicaId')
+        profesor_id = data.get('maestro_id')
+        auth_token = data.get('authToken')
+
+        actividad_academica = request.env['ga.actividad.academica'].sudo().search(['id', '=', actividad_academica_id])
+        alumno = request.env['ga.alumno'].sudo().search([('codigo', '=', codigo_alumno)])
+        profesor = request.env['ga.employee'].sudo().search([('id', '=', profesor_id)])
+
+        now = datetime.now()
+        if actividad_academica.exists() and alumno.exists():
+            nuevo_registro_academico = request.env['ga.registro.academico'].sudo().create({
+                'actividad_academica_id': actividad_academica.id,
+                'alumno_id': alumno.id,
+                'fecha_entrega': now.strftime('%Y-%m-%d %H:%M:%S'),
+                'calificacion' : 1.0
+            })
+            paralelo_profesores = request.env['ga.paralelo.profesor'].sudo().search([('id', '=', actividad_academica.paralelo_profesor_id.id)])
+            if paralelo_profesores.exists():
+                paralelo_profesor = paralelo_profesor[0]
+                plan_estudios = request.env['ga.plan.estudio'].sudo().search([('id', '=', paralelo_profesor.plan_estudio_id.id)])
+                grado = request.env['ga.grado'].sudo().search([('id', '=', plan_estudios.grado_id.id)])
+                if nuevo_registro_academico.exists():
+                    result = Notificacion.sendNotification(auth_token, alumno.token, {
+                        'profesor' : profesor.name,
+                        'codigo_profesor': profesor.id,
+                        'curso': grado.descripcion,
+                        'cursoId': grado.id
+                    }, {
+                        'title': 'Control de asistencia',
+                        'body' : 'Control de asistencia para {}, confirmada'.format(alumno.nombre)
+                    })
+                    if result: response_data = {'message': 'asistencia confirmada'}
+
+        return json.dumps(response_data)
         

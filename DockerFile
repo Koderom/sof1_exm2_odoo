@@ -1,0 +1,11 @@
+FROM odoo:17-base
+
+WORKDIR /odoo
+
+COPY soft1_exm2_odoo/. .
+
+RUN pip install -r requirements.txt
+
+EXPOSE 8069
+
+CMD ["odoo", "--addons-path", "$ODOO_ADDONS_PATH", "--db-filter", "^test$", "--loglevel", "warning"]

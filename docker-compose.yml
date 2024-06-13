@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  odoo:
+    build: .
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./odoo-src:/odoo/odoo-src
+    environment:
+      ODOO_DB_USER: odoo
+      ODOO_DB_PASSWORD: odoo
+      ODOO_DB_NAME: odoo
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: odoo
